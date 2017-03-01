@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.instrument.dao.InstrumentTypeDAO">
+	<resultMap id="BaseResultMap" type="com.instrument.domain.InstrumentType">
+		<id column="instrumentTypeId" property="instrumenttypeid" jdbcType="INTEGER" />
+		<result column="instrumentTypeName" property="instrumenttypename"
+			jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		instrumentTypeId, instrumentTypeName
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">=
+		select
+		<include refid="Base_Column_List" />
+		from instrument_type
+		where instrumentTypeId = #{instrumenttypeid,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="com.instrument.domain.InstrumentType">
+		delete from instrument_type
+		where instrumentTypeName = #{instrumenttypename,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.instrument.domain.InstrumentType">
+		insert into instrument_type (instrumentTypeName
+		)
+		values (#{instrumenttypename,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.instrument.domain.InstrumentType">
+		insert into instrument_type
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="instrumenttypeid != null">
+				instrumentTypeId,
+			</if>
+			<if test="instrumenttypename != null">
+				instrumentTypeName,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="instrumenttypeid != null">
+				#{instrumenttypeid,jdbcType=INTEGER},
+			</if>
+			<if test="instrumenttypename != null">
+				#{instrumenttypename,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.instrument.domain.InstrumentType">
+		update instrument_type
+		<set>
+			<if test="instrumenttypename != null">
+				instrumentTypeName = #{instrumenttypename,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where instrumentTypeId = #{instrumenttypeid,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.instrument.domain.InstrumentType">
+		update instrument_type
+		set instrumentTypeName = #{instrumenttypename,jdbcType=VARCHAR}
+		where instrumentTypeId = #{instrumenttypeid,jdbcType=INTEGER}
+	</update>
+	<select id="getType" resultMap="BaseResultMap" parameterType="com.instrument.domain.InstrumentType">
+  	select instrumentTypeName from instrument_type
+ 	</select>
+	<!-- 分页SQL语句 -->
+	    <select id="getInstrumentType" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT instrumentTypeName FROM instrument_type where 1=1     
+    </select>
+	<!-- 取得记录的总数 -->
+	 <select id="countInstrumentType" resultType="int">
+        SELECT count(*) FROM instrument_type
+    </select>
+</mapper>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.instrument.dao.InstrumentDAO" >
+  <resultMap id="BaseResultMap" type="com.instrument.domain.Instrument" >
+    <id column="barcode" property="barcode" jdbcType="VARCHAR" />
+    <result column="instrumentPhoto" property="instrumentphoto" jdbcType="VARCHAR" />
+    <result column="instrumentName" property="instrumentname" jdbcType="VARCHAR" />
+    <result column="instrumentType" property="instrumenttype" jdbcType="VARCHAR" />
+    <result column="count" property="count" jdbcType="INTEGER" />
+    <result column="date" property="date" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    barcode, instrumentPhoto, instrumentName, instrumentType, count, date
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from instrument
+    where barcode = #{barcode,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from instrument
+    where barcode = #{barcode,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.instrument.domain.Instrument" >
+    insert into instrument (barcode, instrumentPhoto, instrumentName, 
+      instrumentType, count, date
+      )
+    values (#{barcode,jdbcType=VARCHAR}, #{instrumentphoto,jdbcType=VARCHAR}, #{instrumentname,jdbcType=VARCHAR}, 
+      #{instrumenttype,jdbcType=VARCHAR}, #{count,jdbcType=INTEGER}, #{date,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.instrument.domain.Instrument" >
+    insert into instrument
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="barcode != null" >
+        barcode,
+      </if>
+      <if test="instrumentphoto != null" >
+        instrumentPhoto,
+      </if>
+      <if test="instrumentname != null" >
+        instrumentName,
+      </if>
+      <if test="instrumenttype != null" >
+        instrumentType,
+      </if>
+      <if test="count != null" >
+        count,
+      </if>
+      <if test="date != null" >
+        date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="barcode != null" >
+        #{barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="instrumentphoto != null" >
+        #{instrumentphoto,jdbcType=VARCHAR},
+      </if>
+      <if test="instrumentname != null" >
+        #{instrumentname,jdbcType=VARCHAR},
+      </if>
+      <if test="instrumenttype != null" >
+        #{instrumenttype,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null" >
+        #{count,jdbcType=INTEGER},
+      </if>
+      <if test="date != null" >
+        #{date,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.instrument.domain.Instrument" >
+    update instrument
+    <set >
+      <if test="instrumentphoto != null" >
+        instrumentPhoto = #{instrumentphoto,jdbcType=VARCHAR},
+      </if>
+      <if test="instrumentname != null" >
+        instrumentName = #{instrumentname,jdbcType=VARCHAR},
+      </if>
+      <if test="instrumenttype != null" >
+        instrumentType = #{instrumenttype,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null" >
+        count = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="date != null" >
+        date = #{date,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where barcode = #{barcode,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.instrument.domain.Instrument" >
+    update instrument
+    set instrumentPhoto = #{instrumentphoto,jdbcType=VARCHAR},
+      instrumentName = #{instrumentname,jdbcType=VARCHAR},
+      instrumentType = #{instrumenttype,jdbcType=VARCHAR},
+      count = #{count,jdbcType=INTEGER},
+      date = #{date,jdbcType=VARCHAR}
+    where barcode = #{barcode,jdbcType=VARCHAR}
+  </update>
+  <select id="getInstrument" resultMap="BaseResultMap" parameterType="com.instrument.domain.Instrument">
+  	select * from instrument
+  </select>
+  <select id="dynamicQuery" resultMap="BaseResultMap" parameterType="com.instrument.domain.Instrument">
+  	select * from instrument
+  	where 1=1
+  	<if test="instrumentname != null">
+  	 	and instrumentName = #{instrumentname,jdbcType=VARCHAR}
+  	</if>
+  	<if test="instrumenttype != null">
+  		and instrumentType = #{instrumenttype,jdbcType=VARCHAR}
+  	</if>
+  	<if test="barcode != null">
+  		and barcode = #{barcode,jdbcType=VARCHAR}
+  	</if>
+  	<if test="date != null" >
+        and date = #{date,jdbcType=VARCHAR};
+      </if>
+  </select>
+  <select id="countNum" resultType="java.lang.Integer">
+  	SELECT COUNT(barcode) FROM instrument
+  </select>
+</mapper>

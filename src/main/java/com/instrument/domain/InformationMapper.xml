@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.instrument.dao.InformationDAO" >
+  <resultMap id="BaseResultMap" type="com.instrument.domain.Information" >
+    <id column="informationName" property="informationname" jdbcType="VARCHAR" />
+    <result column="detail" property="detail" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    informationName, detail
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from information
+    where informationName = #{informationname,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from information
+    where informationName = #{informationname,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.instrument.domain.Information" >
+    insert into information (informationName, detail)
+    values (#{informationname,jdbcType=VARCHAR}, #{detail,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.instrument.domain.Information" >
+    insert into information
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="informationname != null" >
+        informationName,
+      </if>
+      <if test="detail != null" >
+        detail,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="informationname != null" >
+        #{informationname,jdbcType=VARCHAR},
+      </if>
+      <if test="detail != null" >
+        #{detail,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.instrument.domain.Information" >
+    update information
+    <set >
+      <if test="detail != null" >
+        detail = #{detail,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where informationName = #{informationname,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.instrument.domain.Information" >
+    update information
+    set detail = #{detail,jdbcType=VARCHAR}
+    where informationName = #{informationname,jdbcType=VARCHAR}
+  </update>
+</mapper>
